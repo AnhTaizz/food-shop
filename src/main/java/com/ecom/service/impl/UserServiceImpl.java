@@ -81,4 +81,9 @@ public class UserServiceImpl implements UserService {
 		return userRepository.existsByEmail(email);
 	}
 
+	@Override
+	public Boolean existsPhone(String phoneNumber) {
+		
+		return userRepository.existsByEmail(phoneNumber);
+	}
 }

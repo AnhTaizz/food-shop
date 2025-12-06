@@ -198,11 +198,13 @@ public class HomeController {
 			throws IOException {
 		
 		Boolean existsEmail = userService.existsEmail(user.getEmail());
-		
+		Boolean existsPhone = userService.existsPhone(user.getMobileNumber());
 		if (existsEmail) {
 
 			session.setAttribute("errorMsg", "Email đã tồn tại");
-		} else {
+		} else if(existsPhone){
+			session.setAttribute("errorMsg", "SDT đã tồn tại");
+		}else {
 			UserDtls saveUser = userService.saveUser(user);
 
 			if (!ObjectUtils.isEmpty(saveUser)) {

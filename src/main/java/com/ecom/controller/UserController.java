@@ -137,10 +137,10 @@ public class UserController {
 
         } catch (ResourceNotFoundException e) {
             session.setAttribute("errorMsg", "Lỗi: " + e.getMessage());
-            return "redirect:/user/";
+            return "redirect:/";
         } catch (Exception e) {
             session.setAttribute("errorMsg", "Đã xảy ra lỗi không mong muốn khi tải giỏ hàng.");
-            return "redirect:/user/";
+            return "redirect:/";
         }
     }
 

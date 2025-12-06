@@ -60,7 +60,6 @@ public class CartServiceImpl implements CartService {
 			cartToSave = updateExistingCart(existingCart, product); // tăng số lượng 
 		}
 
-		// Lưu DATABASE
 		return cartRepository.save(cartToSave);
 	}
 
@@ -85,7 +84,7 @@ public class CartServiceImpl implements CartService {
 			c.setTotalPrice(totalPriceItem);                        // Giá trị của 1 đơn hàng
 			totalOrderPrice += totalPriceItem;
 		}
-		// CẬP NHẬT TỔNG GIÁ ĐƠN HÀNG VÀO TỪNG MỤC (Cho mục đích hiển thị)
+
 		for (Cart c : carts) {
 			c.setTotalOrderPrice(totalOrderPrice);
 		}
@@ -113,7 +112,7 @@ public class CartServiceImpl implements CartService {
 			newQuantity = currentQuantity - 1;
 			if (newQuantity <= 0) {
 				cartRepository.delete(cart);            // Xóa
-				return;
+                return;
 			}
 			else {
 				cart.setQuantity(newQuantity);
@@ -138,13 +137,11 @@ public class CartServiceImpl implements CartService {
 
 	@Override
     public void updateQuantityByInput(Integer cartId, Integer newQuantity) {
-        if (newQuantity == null || newQuantity < 0) {
-            return;  				// nhập sai
-        }
+        
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy giỏ hàng với ID là: " + cartId));
 
-        if (newQuantity == 0) {
+        if (newQuantity <= 0) {
             cartRepository.delete(cart);
             return;
         }
@@ -161,13 +158,12 @@ public class CartServiceImpl implements CartService {
     public void removeCartItem(Integer cartId) {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy mục giỏ hàng với ID là: " + cartId));
+
         // Thực hiện xóa
         cartRepository.delete(cart);
     }
 
 
-
-	
 	// HÀM HỖ TRỢ
 	// Tạo một mục Cart mới với số lượng mặc định là 1
 	private Cart createNewCart(UserDtls user, Product product) {
